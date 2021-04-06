@@ -3,17 +3,28 @@
 #include <string.h>
 using namespace std;
 
-
-
-
+const int Interval = 5; 
 namespace ariel {
 
     void Board::post(unsigned int row, unsigned int column, Direction direction, string const &msg) {
-        for (size_t i = 0; i < msg.length(); i++)
+            if(column < this->beginCOL){this->beginCOL = column;}
+            if(column > this->endCOL){this->endCOL = column;}
+            if(row < this->beginROW){this->beginROW = row;}
+            if(row > this->endROW){this->endROW = row;}
+       
+        for (unsigned int i = 0; i < msg.length(); i++)
         {
             this->boardMat[row][column].c = msg.at(i);
-            if(direction == Direction::Vertical){row++;}
-            else{column++;}
+            if(direction == Direction::Vertical){
+                row++;
+                if(row < this->beginROW){this->beginROW = row;}
+                else if(row > this->endROW){this->endROW = row;}
+                }
+            else{
+                column++;
+                if(column < this->beginCOL){this->beginCOL = column;}
+                else if(column > this->endCOL){this->endCOL = column;}
+                }
         }
         
     }
@@ -27,5 +38,15 @@ namespace ariel {
         }
         return output;
     }
-    void Board::show() {}
+    void Board::show() {
+        for (unsigned int i = beginROW - Interval; i < endROW + Interval; i++)
+        {
+            for (unsigned int j = beginCOL - Interval; j < endCOL + Interval; j++)
+            {
+                cout << this->boardMat[i][j].c;
+            }
+            cout << "\n";
+        }
+    }
 }
+
