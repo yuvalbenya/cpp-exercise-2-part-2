@@ -7,23 +7,23 @@ const int Interval = 5;
 namespace ariel {
 
     void Board::post(unsigned int row, unsigned int column, Direction direction, string const &msg) {
-            if(column < this->beginCOL){this->beginCOL = column;}
-            if(column > this->endCOL){this->endCOL = column;}
-            if(row < this->beginROW){this->beginROW = row;}
-            if(row > this->endROW){this->endROW = row;}
+            if(column < beginCOL){beginCOL = column;}
+            if(column > endCOL){endCOL = column;}
+            if(row < beginROW){beginROW = row;}
+            if(row > endROW){endROW = row;}
        
         for (unsigned int i = 0; i < msg.length(); i++)
         {
-            this->boardMat[row][column].c = msg.at(i);
+            boardMat[row][column].c = msg.at(i);
             if(direction == Direction::Vertical){
                 row++;
-                if(row < this->beginROW){this->beginROW = row;}
-                else if(row > this->endROW){this->endROW = row;}
+                if(row < beginROW){beginROW = row;}
+                else if(row > endROW){endROW = row;}
                 }
             else{
                 column++;
-                if(column < this->beginCOL){this->beginCOL = column;}
-                else if(column > this->endCOL){this->endCOL = column;}
+                if(column < beginCOL){beginCOL = column;}
+                else if(column > endCOL){endCOL = column;}
                 }
         }
         
@@ -32,18 +32,22 @@ namespace ariel {
         string output;
         for (size_t i = 0; i < length; i++)
         {
-            output+= this->boardMat[row][column].c;
+            output+= boardMat[row][column].c;
             if(direction == Direction::Vertical){row++;}
             else{column++;}       
         }
         return output;
     }
     void Board::show() {
-        for (unsigned int i = beginROW - Interval; i < endROW + Interval; i++)
+        // if(beginROW = UINT8_MAX) beginROW = 5;
+        // if(beginCOL = UINT8_MAX) beginCOL = 5;
+        // if(endROW = UINT8_MAX) endROW = 5;
+        // if(endCOL = UINT8_MAX) endCOL = 5;
+        for (unsigned int i = beginROW; i < endROW + 1; i++)
         {
-            for (unsigned int j = beginCOL - Interval; j < endCOL + Interval; j++)
+            for (unsigned int j = beginCOL; j < endCOL + 1; j++)
             {
-                cout << this->boardMat[i][j].c;
+                cout << boardMat[i][j].c;
             }
             cout << "\n";
         }
